@@ -1,0 +1,31 @@
+User, Id
+root, 0
+daemon, 1
+bin, 2
+sys, 3
+sync, 4
+games, 5
+man, 6
+lp, 7
+mail, 8
+news, 9
+uucp, 10
+proxy, 13
+www-data, 33
+backup, 34
+list, 38
+irc, 39
+_apt, 42
+nobody, 65534
+systemd-network, 998
+systemd-timesync, 997
+messagebus, 100
+sshd, 101
+debian, 1000
+
+
+Last root password change: Apr 04, 2025
+
+
+Groups
+root,daemon,bin,sys,adm,tty,disk,lp,mail,news,uucp,man,proxy,kmem,dialout,fax,voice,cdrom,floppy,tape,sudo,audio,dip,www-data,backup,operator,list,irc,src,shadow,utmp,video,sasl,plugdev,staff,games,users,nogroup,systemd-journal,systemd-network,crontab,input,sgx,kvm,render,netdev,systemd-timesync,messagebus,_ssh,debian

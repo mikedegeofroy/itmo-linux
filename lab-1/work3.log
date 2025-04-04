@@ -22,10 +22,17 @@ systemd-timesync, 997
 messagebus, 100
 sshd, 101
 debian, 1000
+u1, 1001
+u2, 1002
 
 
 Last root password change: Apr 04, 2025
 
 
 Groups
-root,daemon,bin,sys,adm,tty,disk,lp,mail,news,uucp,man,proxy,kmem,dialout,fax,voice,cdrom,floppy,tape,sudo,audio,dip,www-data,backup,operator,list,irc,src,shadow,utmp,video,sasl,plugdev,staff,games,users,nogroup,systemd-journal,systemd-network,crontab,input,sgx,kvm,render,netdev,systemd-timesync,messagebus,_ssh,debian
+root, daemon, bin, sys, adm, tty, disk, lp, mail, news, uucp, man, proxy, kmem, dialout, fax, voice, cdrom, floppy, tape, sudo, audio, dip, www-data, backup, operator, list, irc, src, shadow, utmp, video, sasl, plugdev, staff, games, users, nogroup, systemd-journal, systemd-network, crontab, input, sgx, kvm, render, netdev, systemd-timesync, messagebus, _ssh, debian, u1, g1, u2, g13
+UID: 1001
+Name: u1
+Group UIDs: 1001 1002 1004
+Group Names: u1 g1 g13
+Users in g1: u1,debian

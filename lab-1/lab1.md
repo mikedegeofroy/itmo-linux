@@ -40,7 +40,7 @@ echo "Done"
 
 3) Print groups through a comma
 
-```
+```bash
 #!/bin/bash
 
 filename="work3.log"

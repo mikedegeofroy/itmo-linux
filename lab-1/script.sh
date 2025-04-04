@@ -2,11 +2,11 @@
 
 filename="work3.log"
 
-echo "User, Id" > "$filename"
+echo "user {user} has id {id}" > "$filename"
 
-while IFS=: read -r username _ uid _ _ _ _
+while IFS=: read -r username _ id _ _ _ _
 do
-  echo "$username, $uid" >> "$filename"
+  echo "user $username has id $id" >> "$filename"
 done < /etc/passwd
 
 last_change_date=$(sudo chage -l root | awk -F': ' '/Last password change/ {print $2}')

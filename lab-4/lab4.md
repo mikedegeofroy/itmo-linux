@@ -221,5 +221,70 @@ mount | grep /mnt/mydata
 - После выполнения Части 5 у вас должен был остаться юнит для монтирования /mnt/mydata
 - Убедитесь, что при остановке раздел отмонтируется, а монтируется обратно только при запуске юнита или перезагрузке системы
 
-  
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/c08cdeba-0937-4ed3-b70d-d55ede21a1f5" />
+
+### 6.2 Создание .automount юнита
+
+- Создайте файл .automount юнита в /etc/systemd/system/mnt-mydata.automount.
+- Настройте юнит следующим образом:
+    - Добавьте описание юнита в секцию [Unit].
+    - В секции [Automount] точку монтирования и время до размонтирования (TimeoutIdleSec)
+    - В секции [Install] укажите, что юнит должен быть активирован при достижении multi-user.target.
+- Сохраните файл и выйдите из редактора
+
+```bash
+vim /etc/systemd/system/mnt-mydata.automount
+```
+
+```bash
+[Unit]
+Description=Automount Unit
+
+[Automount]
+Where=/mnt/mydata
+TimeoutIdleSec=60
+
+[Install]
+WantedBy=multi-user.target
+```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/171b1101-3efe-4b33-b745-9eae7a6c378d" />
+
+### 6.3 Запуск и проверка .automount юнита
+
+- Включите и запустите .automount юнит.
+- Проверьте статус юнита и убедитесь, что раздел монтируется при обращении к точке монтирования.
+- Убедитесь, что раздел размонтируется после завершения работы
+
+```bash
+systemctl daemon-reload
+systemctl enable mnt-mydata.automount
+systemctl start mnt-mydata.automount
+systemctl status mnt-mydata.automount
+```
+
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/7e33ff54-1b04-4620-8458-fd06c6da572f" />
+
+
+```bash
+mount | grep mydata
+ls /mnt/mydata
+mount | grep mydata
+```
+
+через таймаут
+
+```bash
+mount | grep mydata
+```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/79217c1b-be67-4f96-84c4-a6593b7ae5fc" />
+
+## Вопросы и задания
+
+
+
+
+
 

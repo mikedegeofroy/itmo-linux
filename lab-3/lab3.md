@@ -1,4 +1,4 @@
-# Лабораторная Работа 3
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/52584a61-8cc8-4aa8-af2c-67b274f62970" /># Лабораторная Работа 3
 __Выполнил: де Джофрой Мишель, М3308__
 
 ## 1. Выведите список всех подключенных репозитариев
@@ -158,6 +158,26 @@ apt install htop=3.2.2-2
 
 ## 19. Скачайте из сетевого репозитория пакет nano. Пересоберите пакет таким образом, чтобы после его установки, появлялась возможность запустить редактор nano из любого каталога, введя команду newnano. Для работы с пакетом следует использовать dpkg-deb, а для установки dpkg. В файле протокола работы опишите использованные команды.
 
+```bash
+mkdir newnano
+wget https://ftp.debian.org/debian/pool/main/n/nano/nano_8.3-1_arm64.deb
+dpkg-deb -R nano_8.3-1_arm64.deb nano-package
+cd nano-package/usr/bin
+mv nano newnano
+cd ../../..
+vim nano-package/DEBIAN/control
+dpkg-deb -b nano-package newnano.deb
+sudo dpkg -i newnano.deb
+```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/3c72d56d-b582-4a5c-83db-7456ddb62c4f" />
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/a10a51e5-d0de-4f59-846d-35de98eac902" />
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/c422e4b3-5455-4c67-b510-b1c6415b79c2" />
 
 
+## ### 20. Бонусный вопрос с подвохом - что есть в APT?
+
+apt - обертка над apt-get, apt-cache, dpkg, debconf, apt-key и другими пакетами. А так там можно найти все что нужно)
 

@@ -38,11 +38,19 @@ LIMIT_BYTES=$((LIMIT_MB * 1024 * 1024))  # → 964689920
 cgset -r memory.limit_in_bytes=964689920 cg42
 ```
 
-### 3.3 Запустите процесс и переместите его в созданную вами группу.
+### 2.3 Запустите процесс и переместите его в созданную вами группу.
 
 ```
 cgexec -g memory:cg42 tail -f /dev/zero &
 ```
+
+### 2.4 Проверьте, что при исчерпании памяти процессом он прерывается ОС.
+
+```
+dmesg | tail -n 20
+```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/19190ff2-de20-47e3-aa77-3491a18a77a5" />
 
 ## 3. Ограничение дискового ввода-вывода для сценария резервного копирования (cgroups)
 
@@ -62,7 +70,20 @@ cgset -r blkio.throttle.write_iops_device="8:0 920" backup
 
 ### 3.4 Протестируйте с помощью fio или dd.
 
-hey!
+```bash
+sudo apt install fio
+
+fio --name=normal --rw=read --bs=4k --size=100M --filename=/tmp/testfile --runtime=10
+
+sudo cgexec -g blkio:backup fio --name=limited --rw=read --bs=4k --size=100M --filename=/tmp/testfile2 --runtime=10
+
+```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/50d136d4-b5a2-48c4-9d95-453994528d8f" />
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/c2a0556b-5da9-4888-9c00-a381be2da6a3" />
+
+> Видим что при запуске первой команды — IOPS=291k, при запуске второй IOPS=110k
 
 ## 4. Закрепление к определенному ядру процессора для приложения
 
@@ -71,6 +92,13 @@ hey!
 ### 4.2 Используйте cpuset.cpus в cgroups.
 
 ### 4.3 Проверьте с помощью taskset -p <PID>. (требуется пакет sysstat)
+
+```bash
+cgcreate -g cpuset:/topgroup
+cgset -r cpuset.cpus=0 topgroup
+cgexec -g cpuset:topgroup top -b > temp.txt & 
+taskset -p 911
+```
 
 
 

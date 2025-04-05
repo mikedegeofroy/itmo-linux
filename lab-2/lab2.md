@@ -240,9 +240,21 @@ sudo filefrag -e /var/remotenfs/banana
 
 ## 25. Создайте мягкую и жесткую ссылки на файл, посмотрите информацию о их логическом расположении, inode, найдите отличия и сходства, чем они объясняются
 
+```bash
+ln /mnt/vol01/banana /mnt/vol01/banana_hard
+ln -s /mnt/vol01/banana /mnt/vol01/banana_soft
+```
 
+<img width="1063" alt="image" src="https://github.com/user-attachments/assets/3487bf0c-b97f-493a-85a0-b88e9ca8a564" />
 
+<img width="1063" alt="image" src="https://github.com/user-attachments/assets/dc1a1540-765f-412b-97ad-8da6f3674757" />
 
+<img width="1063" alt="image" src="https://github.com/user-attachments/assets/f86b1553-4791-4e3c-99d8-ea7de23c85e3" />
+
+Отличия:
+
+- Имеют разные права доступа (у softlink 777)
+- hardlink и test.txt имеют одинаковый inode, а у softlink inode другой
 
 
 

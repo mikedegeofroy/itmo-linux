@@ -123,10 +123,33 @@ reboot
 ```
 fdisk /dev/sdc
 fdisk /dev/sdd
-pvcreate /dev/sdc /dev/sdd
+pvcreate /dev/sdc1 /dev/sdd1
 ```
 <img width="744" alt="image" src="https://github.com/user-attachments/assets/23ee98ae-cc04-44cd-8a5d-c66fbaa623ef" />
 <img width="755" alt="image" src="https://github.com/user-attachments/assets/2956e24b-33a5-4684-b914-f56083913be0" />
+<img width="589" alt="image" src="https://github.com/user-attachments/assets/8ce809f7-452a-43be-b960-8d3f8b74ce58" />
+
+## 14. На дисках 2 и 3 создайте чередующийся LVM том и файловую систему ext4 на весь том.
+
+```
+vgcreate vg_data /dev/sdc1 /dev/sdd1
+lvcreate --type striped -i 2 -l 100%VG -n lv_striped vg_data
+sudo mkfs.ext4 /dev/vg_data/lv_striped
+```
+
+<img width="748" alt="image" src="https://github.com/user-attachments/assets/3a5816da-104f-47e5-8b2e-89dc3e34793f" />
+
+## 15. Смонтируйте том в каталог /mnt/vol01 и настройте автомонтирование.
+
+```
+mkdir /mnt/vol01
+mount /dev/vg_data/lv_striped /mnt/striped
+echo "/dev/vg_data/lv_striped /mnt/vol01 ext4 defaults 0 2" >> /etc/fstab
+```
+
+<img width="757" alt="image" src="https://github.com/user-attachments/assets/b5864882-9adc-4bfd-8ecc-601716411117" />
+
+## 16. Получите информацию LVM о дисках, volume group и volume.
 
 
 

@@ -96,9 +96,20 @@ sudo cgexec -g blkio:backup fio --name=limited --rw=read --bs=4k --size=100M --f
 ```bash
 cgcreate -g cpuset:/topgroup
 cgset -r cpuset.cpus=0 topgroup
-cgexec -g cpuset:topgroup top -b > temp.txt & 
-taskset -p 911
+cgexec -g cpuset:topgroup top -b > temp.txt &
+taskset -p 1409
 ```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/90c8079b-67f3-4975-b71c-ea82555a2763" />
+
+## 5. Динамическая корректировка ресурсов (cgroups)
+
+### 5.1 Напишите сценарий для мониторинга нагрузки по CPU и динамического изменения cpu.max определенного процесса (его идентификатор задается как входной параметр скрипта).
+
+### 5.2 Квота ЦП для процесса должна регулироваться в зависимости от общей нагрузки на систему:
+
+  - Низкая нагрузка (CPU < 20%): 80% CPU.
+  - Высокая нагрузка (CPU > 60%): 30% CPU.
 
 
 

@@ -228,6 +228,17 @@ ls -l /var/remotenfs
 
 <img width="1063" alt="image" src="https://github.com/user-attachments/assets/3265ccd6-fcaa-4ea2-a470-9333f591dc62" />
 
+## 24. Получите информацию о inode любого файла, выведите информацию о логическом размещении файла на диске
+
+```bash
+sudo stat /var/remotenfs/banana
+sudo filefrag -e /var/remotenfs/banana
+```
+
+<img width="1063" alt="image" src="https://github.com/user-attachments/assets/e6d3779c-1ac4-4936-8d62-ac6bf7f1c2ea" />
+
+
+## 25. Создайте мягкую и жесткую ссылки на файл, посмотрите информацию о их логическом расположении, inode, найдите отличия и сходства, чем они объясняются
 
 
 

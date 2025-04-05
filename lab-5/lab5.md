@@ -404,3 +404,6 @@ volumes:
   db-data:
   wp-data:
 ```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/db1905d3-772a-4f72-8757-72ee382d0e1e" />
+

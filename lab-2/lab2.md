@@ -74,10 +74,60 @@ ln -s /mnt/newdisk /root/newdisk_link
 ## 9. Включите автомонтирование при запуске операционной системы созданной файловой системы в /mnt/newdisk таким образом, чтобы было невозможно запускать исполняемые файлы, находящиеся в этой системе, а также с отключением возможности записи времени последнего доступа к файлу для ускорения работы с этой файловой системой. Перезагрузите операционную систему и проверьте доступность файловой системы. Проверьте невозможность запустить исполняемый файл, если он хранится в этой файловой системе.
 
 ```bash
-echo "$(blkid /dev/sdb1 | awk '{print $2}' | tr -d '"')  /mnt/newdisk  ext4  defaults,noexec,noatime  0  2" | tee -a /etc/fstab
+echo "$(blkid /dev/sdb1 | awk '{print $2}' | tr -d '"')  /mnt/newdisk  ext4  defaults,noexec,noatime  0  2" >> /etc/fstab
 ```
 
 После запуска команды требуется `reboot`
+
+<img width="638" alt="image" src="https://github.com/user-attachments/assets/5124256f-58a9-4347-bcd3-27188cf18df3" />
+
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/6beff830-dea1-44ba-b15f-6e3579206377" />
+
+## 10. Увеличьте размер раздела и файловой системы до 1 Гб. Проверьте, что размер изменился.
+
+```bash
+fdisk /dev/sdb
+reboot
+df -BG
+```
+
+<img width="751" alt="image" src="https://github.com/user-attachments/assets/32009d90-8646-47d2-ae85-28416952613a" />
+
+<img width="687" alt="image" src="https://github.com/user-attachments/assets/70a53031-fc91-44ca-8ffc-bfd3ff0b6c3a" />
+
+## 11. Проверьте на наличие ошибок созданную файловую системы "в безопасном режиме", то есть в режиме запрета внесения каких-либо изменений в файловую систему, даже если обнаружены ошибки.
+
+<img width="751" alt="image" src="https://github.com/user-attachments/assets/6a6456dd-dd76-4ebd-b832-02d50d8573e7" />
+
+
+## 12. Создайте новый раздел, размером в 12 Мбайт. Настройте файловую систему, созданную в пункте 3 таким образом, чтобы ее журнал был расположен на разделе, созданном в этом пункте.
+
+```bash
+fdisk /dev/sdb
+umount /mnt/newdisk
+mke2fs -O journal_dev -b 4096 /dev/sdb2
+reboot
+```
+
+<img width="853" alt="image" src="https://github.com/user-attachments/assets/98133bff-01b7-46b8-bddb-52efd3edafc3" />
+
+> Тут есть ошибка, забыл указать размер, переделал, видно будет на след скрине.
+
+<img width="625" alt="image" src="https://github.com/user-attachments/assets/19b1e129-6885-4ed7-9da3-a0b44c43237c" />
+
+<img width="503" alt="image" src="https://github.com/user-attachments/assets/b8a39efc-5ac2-4a36-9bc6-f456353a842d" />
+
+
+## 13. Создайте на 2 и 3-м добавленном диске разделы, занимающие весь диск. Инициализируйте для LVM все созданные разделы.
+
+```
+fdisk /dev/sdc
+fdisk /dev/sdd
+pvcreate /dev/sdc /dev/sdd
+```
+<img width="744" alt="image" src="https://github.com/user-attachments/assets/23ee98ae-cc04-44cd-8a5d-c66fbaa623ef" />
+<img width="755" alt="image" src="https://github.com/user-attachments/assets/2956e24b-33a5-4684-b914-f56083913be0" />
+
 
 
 

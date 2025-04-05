@@ -120,7 +120,7 @@ reboot
 
 ## 13. Создайте на 2 и 3-м добавленном диске разделы, занимающие весь диск. Инициализируйте для LVM все созданные разделы.
 
-```
+```bash
 fdisk /dev/sdc
 fdisk /dev/sdd
 pvcreate /dev/sdc1 /dev/sdd1
@@ -131,7 +131,7 @@ pvcreate /dev/sdc1 /dev/sdd1
 
 ## 14. На дисках 2 и 3 создайте чередующийся LVM том и файловую систему ext4 на весь том.
 
-```
+```bash
 vgcreate vg_data /dev/sdc1 /dev/sdd1
 lvcreate --type striped -i 2 -l 100%VG -n lv_striped vg_data
 sudo mkfs.ext4 /dev/vg_data/lv_striped
@@ -141,7 +141,7 @@ sudo mkfs.ext4 /dev/vg_data/lv_striped
 
 ## 15. Смонтируйте том в каталог /mnt/vol01 и настройте автомонтирование.
 
-```
+```bash
 mkdir /mnt/vol01
 mount /dev/vg_data/lv_striped /mnt/striped
 echo "/dev/vg_data/lv_striped /mnt/vol01 ext4 defaults 0 2" >> /etc/fstab
@@ -150,6 +150,29 @@ echo "/dev/vg_data/lv_striped /mnt/vol01 ext4 defaults 0 2" >> /etc/fstab
 <img width="757" alt="image" src="https://github.com/user-attachments/assets/b5864882-9adc-4bfd-8ecc-601716411117" />
 
 ## 16. Получите информацию LVM о дисках, volume group и volume.
+
+```bash
+pvs
+vgs
+lvs
+```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/70465c90-6ff5-4ead-a1ca-be0287dd87f0" />
+
+## 17. Расширьте раздел на дополнительный диск используя туже volume group, что и в п. 14. Расширьте том на 100% нового диска.
+
+```
+fdisk /dev/sde
+pvcreate /dev/sde1
+vgextend vg_data /dev/sde1
+sudo pvs /dev/sde1
+```
+<img width="592" alt="image" src="https://github.com/user-attachments/assets/4af7f8da-ed6b-40df-be22-9de5459b0812" />
+
+## 18. Расширьте файловую систему на 100% нового диска (обратите внимание, что вам не пришлось отмонтировать раздел)
+
+<img width="761" alt="image" src="https://github.com/user-attachments/assets/27409b77-31d3-48d0-946e-dde6c23c5812" />
+
 
 
 

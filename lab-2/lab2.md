@@ -212,9 +212,26 @@ exportfs -a
 
 ## 22. На компьютере client осуществите монтирование сетевого ресурса в каталог /var/remotenfs.
 
-```
+```bash
 apt install nfs-common
 sudo mount -t nfs 192.168.100.1:/mnt/vol01 /var/remotenfs
 ```
+
+## 23. Убедитесь, что монтирование удалось. Скопируйте в каталог remotenfs любой файл.
+
+```bash
+sudo touch banana
+ls -l /var/remotenfs
+```
+
+<img width="1063" alt="image" src="https://github.com/user-attachments/assets/7d67fe9a-d95a-4632-bda0-8cd1590fea81" />
+
+<img width="1063" alt="image" src="https://github.com/user-attachments/assets/3265ccd6-fcaa-4ea2-a470-9333f591dc62" />
+
+
+
+
+
+
 
 

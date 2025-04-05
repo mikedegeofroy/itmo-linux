@@ -1,6 +1,8 @@
 # Лабораторная Работа 5
 __Выполнил: де Джофрой, Мишель__
 
+> поторопился, не понял, что ID -> последние 2 цифры ИСУ (пробежался глазами)... Сделал 42, должен был быть 3455**70**. В рамках текущей ЛР `ID = 42` (выбрано на угад, но в основном как ответ на «главный вопрос жизни, Вселенной и всего такого» — 42, отссылка к «Путеводитель для путешествующих автостопом по галактике»)
+
 ## 1. Квоты на процессор для конкретного пользователя (cgroups v2):
 
 ### 1.1 Создайте пользователя: user-ID (например, user-72).
@@ -198,3 +200,163 @@ hostname
 <img width="1063" alt="image" src="https://github.com/user-attachments/assets/8716d6b9-19b6-415e-995b-d4baec15bc2a" />
 
 ## 10. Создайте и проанализируйте монтирование OverlayFS
+
+#### Шаги:  
+**a. Первоначальная настройка:**  
+
+- Создайте каталоги:  
+  ```bash
+  mkdir -p ~/overlay_42/{lower,upper,work,merged}
+  ```
+  
+- В каталоге `lower` создайте файл с именем `42_original.txt` с содержанием:  
+  ```text
+  Оригинальный текст из LOWER
+  ```  
+- Смонтируйте OverlayFS:  
+  ```bash
+  mount -t overlay overlay -o lowerdir=~/overlay_42/lower,upperdir=~/overlay_42/upper,workdir=~/overlay_42/work ~/overlay_42/merged
+  ```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/5cce1e04-fa80-44c7-9b2b-cbf58d3b6d5c" />
+
+**b. Имитация неполадки и отладка:**  
+- Удалите файл `42_original.txt` из каталога `merged`.  
+- Понаблюдайте: Какой файл(ы) появился(ись) в верхнем каталоге? Задокументируйте их имена и содержимое.  
+- Измените каталог `merged`, чтобы *восстановить* `42_original.txt`, не размонтируя и не изменяя нижний уровень.
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/ce1d454c-20f4-410d-b6a2-d2fccfa27b9b" />
+
+**c. Разработайте скрипт, который:**  
+- Обнаруживает все `whiteout` файлы в верхнем каталоге `upper`.  
+- Сравнивает содержимое нижнего и объединенного для выявления несоответствий.  
+- Выводит отчет с именем `42_audit.log`.
+
+```bash
+#!/bin/bash
+
+BASE_DIR="$HOME/overlay_42"
+LOWER="$BASE_DIR/lower"
+UPPER="$BASE_DIR/upper"
+MERGED="$BASE_DIR/merged"
+LOG="$BASE_DIR/42_audit.log"
+
+echo "Дата: $(date)" >> "$LOG"
+echo "" >> "$LOG"
+
+echo "[WHITEOUT FILES]" >> "$LOG"
+find "$UPPER" -name ".wh.*" | while read whfile; do
+    filename=$(basename "$whfile" | sed 's/^\.wh\.//')
+    lower_file="$LOWER/$filename"
+    merged_file="$MERGED/$filename"
+
+    echo "Found whiteout: $whfile" >> "$LOG"
+
+    if [ -f "$lower_file" ]; then
+        echo "Found in lower" >> "$LOG"
+    else
+        echo "Not found in lower" >> "$LOG"
+    fi
+
+    if [ -f "$merged_file" ]; then
+        echo "Unexpected file" >> "$LOG"
+    else
+        echo "Not found in merge, as expected" >> "$LOG"
+    fi
+
+    echo "" >> "$LOG"
+done
+
+echo "[DONE] $LOG"
+```
+
+**d. Ответьте на вопросы:**  
+- Как OverlayFS скрывает файлы из нижнего слоя при удалении в объединенном?
+
+При удалении в merged слое, в слое lower (физическом) файлы не удаляются. В upper добавляется специальный whiteout файл, который прячет файл из lower слоя.
+ 
+- Если вы удалите рабочий каталог `work`, сможете ли вы перемонтировать оверлей? Объясните, почему.
+
+Если мы удалим work (вспомогательный каталог), то мы не сможем перемонтировать оверлей, т.к. он требует наличие lower, upper, work для инициализации
+
+- Что произойдет с объединенным слоем, если верхний каталог будет пуст?
+
+Если каталог upper пуст ⇒ нет whiteout файлов ⇒ в каталоге merged просто показываются все файлы из lower
+
+## 11. Оптимизируйте Dockerfile для приведенного ниже приложения app.py
+
+`app.py:`
+```python
+from flask import Flask
+import socket
+import os
+app = Flask(__name__)
+@app.route('/')
+def container_info():
+		# Get container IP
+		hostname = socket.gethostname()
+		ip_address = socket.gethostbyname(hostname)
+		# Get student name from environment variable
+		student_name = os.getenv('STUDENT_NAME', 'Rincewind')
+		return f"Container IP: {ip_address} Student: {student_name}"
+if __name__ == '__main__':
+		app.run(host='0.0.0.0', port=5000)
+```
+
+`Dockerfile`
+```Dockerfile
+FROM python:latest
+COPY . /app
+WORKDIR /app
+RUN pip install flask
+CMD ["python", "app.py"]
+```
+
+**Улучшите Dockerfile с учетом лучших практик:**
+
+- Используйте меньший базовый образ.
+- Зафиксируйте версию образа.
+- Запуск от имени пользователя, не являющегося root.
+- Используйте кэширование слоев для зависимостей.
+- Добавьте файл .dockerignore.
+
+`Улучшенный Dockerfile:`
+```Dockerfile
+FROM python:3.11-slim
+
+RUN useradd -m user1
+
+COPY --chown=user1:user1 req.txt .
+RUN pip install --no-cache-dir -r req.txt
+
+COPY --chown=user1:user1 . /app
+WORKDIR /app
+
+USER user1
+
+CMD ["python", "app.py"]
+```
+
+`.dockerignore`
+```
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
+```

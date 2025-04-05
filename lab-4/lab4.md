@@ -154,9 +154,72 @@ journalctl --disk-usage
 
 ## Часть 5. Создание и настройка .mount юнита
 
+### 5.1 Подготовьте файловую систему:
+- Создайте новый раздел на диске или используйте существующий
+- отформатируйте его в файловую систему ext4.
+- Создайте директорию для монтирования /mnt/mydata
 
+```bash
+fdisk /dev/sdb
+lsblk
+mkfs.ext4 /dev/sdb1
+mkdir /mnt/mydata
+```
 
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/0907e32b-49fc-49f8-9f5e-e006a199b840" />
 
+### 5.2 Создание .mount юнита
 
+- Создайте файл .mount юнита в /etc/systemd/system/mnt-mydata.mount.
+- Настройте юнит следующим образом:
+    - Добавьте описание юнита в секцию [Unit].
+    - В секции [Mount] укажите устройство, точку монтирования, тип файловой системы и опции.
+    - В секции [Install] укажите, что юнит должен быть активирован при достижении multi-user.target.
+- Сохраните файл и выйдите из редактора
 
+```bash
+vim /etc/systemd/system/mnt-mydata.mount
+```
+
+```bash
+[Unit]
+Description=Mount Unit
+After=local-fs.target
+Requires=local-fs.target
+
+[Mount]
+What=/dev/sdb1
+Where=/mnt/mydata
+Type=ext4
+Options=defaults
+
+[Install]
+WantedBy=multi-user.target
+```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/7d11050f-0ffe-4f14-9542-d96995898332" />
+
+### 5.3 Запуск и проверка .mount юнита
+
+- Включите и запустите юнит.
+- Проверьте статус юнита.
+- Убедитесь, что раздел смонтирован.
+
+```bash
+systemctl daemon-reload
+systemctl enable mnt-mydata.mount
+systemctl status mnt-mydata.mount
+mount | grep /mnt/mydata
+```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/49369393-0dac-4c6e-afea-a7bb7343988d" />
+
+## Часть 6. Использование .automount для отложенного монтирования
+
+### 6.1 Подготовьте соответствующий .mount-юнит
+
+- После выполнения Части 5 у вас должен был остаться юнит для монтирования /mnt/mydata
+- Убедитесь, что при остановке раздел отмонтируется, а монтируется обратно только при запуске юнита или перезагрузке системы
+
+  
 

@@ -154,5 +154,33 @@ hostname
 ### 7.4 Сравните с хостом (в новом терминале):
 `ps aux` # Показывает все процессы хоста.
 
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/f6d0fe03-bc35-4476-a790-adedc3884d73" />
+
+<img width="1063" alt="image" src="https://github.com/user-attachments/assets/225695b2-ea42-4b41-b4e7-a80aee99283e" />
+
+## 8. Изолированная файловая система (пространство имен Mount)
+
+### 8.1 Создайте каталог, видимый только в пространстве имен:
+`unshare --mount bash`
+
+### 8.2 Создайте приватный каталог:
+`mkdir /tmp/private_$(whoami)`
+
+### 8.3 Смонтируйте временную файловую систему:
+`mount -t tmpfs tmpfs /tmp/private_$(whoami)`
+
+### 8.4 Проверьте изоляцию:
+`df -h | grep private_$(whoami)` # Запишите в отчет результат.
+
+### 8.5 Проверка на хосте (в новом терминале):
+`df -h | grep private_$(whoami)`
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/1e1a456b-a2bd-49c8-bbe2-b12312102646" />
+
+<img width="1063" alt="image" src="https://github.com/user-attachments/assets/3b3467ed-72d7-4639-8a28-93eef4faacd9" />
+
+
+
+
 
 

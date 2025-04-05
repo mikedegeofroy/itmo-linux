@@ -179,8 +179,22 @@ hostname
 
 <img width="1063" alt="image" src="https://github.com/user-attachments/assets/3b3467ed-72d7-4639-8a28-93eef4faacd9" />
 
+## 9. Отключение доступа к сети (пространство имен Network)
 
+### 9.1 Запустите командный интерпретатор bash без доступа к сети.
+`unshare --net bash`
 
+### 9.2 Проверьте сетевые интерфейсы:
+`ip addr` # Запишите в отчет, что показывает команда.
 
+### 9.3 Проверьте подключение:
+`ping google.com`
 
+### 9.3 Сравните с хостом (в новом терминале):
+`ping google.com`
 
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/178b3c3d-167d-475b-96d4-1bb2839bc1c7" />
+
+<img width="1063" alt="image" src="https://github.com/user-attachments/assets/8716d6b9-19b6-415e-995b-d4baec15bc2a" />
+
+## 10. Создайте и проанализируйте монтирование OverlayFS

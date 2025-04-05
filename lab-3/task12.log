@@ -1,0 +1,3 @@
+libgpm2
+  Depends: libc6
+  Suggests: gpm

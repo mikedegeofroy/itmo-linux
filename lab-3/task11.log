@@ -1,0 +1,19 @@
+gcc
+  Depends: cpp
+  Depends: gcc-12
+  Conflicts: gcc-doc
+ |Recommends: libc6-dev
+  Recommends: <libc-dev>
+    libc6-dev
+  Suggests: <gcc-multilib>
+  Suggests: make
+    make-guile
+  Suggests: manpages-dev
+  Suggests: autoconf
+  Suggests: automake
+  Suggests: libtool
+  Suggests: flex
+  Suggests: bison
+  Suggests: gdb
+    gdb-minimal
+  Suggests: gcc-doc

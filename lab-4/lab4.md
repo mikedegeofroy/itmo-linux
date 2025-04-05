@@ -283,8 +283,29 @@ mount | grep mydata
 
 ## Вопросы и задания
 
+### 1. Чем отличаются команды systemctl restart и systemctl try-restart?
 
+`systemctl restart` всегда перезапускает сервис, даже если он не был запущен
 
+`systemctl try-restart` перезапускает сервис только в том случае, если он запущен
 
+### 2. Как с помощью systemctl запустить Linux в однопользовательском режиме?
 
+`sudo systemctl isolate rescue.target`
 
+### 3. Пусть вам нужно создать еще один сервис mysrv, который не будет запускаться автоматически, и может быть выполнен, только если сервис mymsg будет принудительно остановлен уже после старта системы. Приведите параметры и их значения из описания юнитов mymsg и mysrv, которые обеспечат выполнения этих условий
+
+```bash
+[Unit]
+Description=Message Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'echo "MyMsg Service started at $(date)" | systemd-cat -t mymsg'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+```

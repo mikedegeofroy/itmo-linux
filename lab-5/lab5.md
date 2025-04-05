@@ -360,3 +360,47 @@ coverage.xml
 .pytest_cache
 .hypothesis
 ```
+
+## 12. Установка платформы публикации WordPress с помощью Docker Compose
+
+**Задача:**  
+Создать `docker-compose.yml` для запуска WordPress и MySQL/MariaDB с сохранением состояния при перезапуске контейнеров.  
+
+**Используйте:**  
+- Порт `<ID>+2000` для WordPress (например, ID = 65 → port = 2065).  
+- Пароль базы данных: `[ваше_имя]_db_pass`.  
+- Том с именем `[ваше_имя]-wp-data` для WordPress.
+
+`docker-compose.yaml:`
+```yaml
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - db-data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:latest
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "2042:80"
+    volumes:
+      - wp-data:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+
+volumes:
+  db-data:
+  wp-data:
+```

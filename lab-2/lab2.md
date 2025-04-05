@@ -169,10 +169,28 @@ lvextend -i 2 -l +100%FREE /dev/vg_data/lv_striped
 
 <img width="1009" alt="image" src="https://github.com/user-attachments/assets/c6b694f1-4f16-4d0d-b2d5-60bac2793e95" />
 
+> Пришлось пару раз переделать, тк lvs почему-то не показывал, как используются все дкиски, теперь вот
+
+<img width="1112" alt="image" src="https://github.com/user-attachments/assets/b49c9842-37fa-45c8-a678-711527f7d3a9" />
+
+
 ## 18. Расширьте файловую систему на 100% нового диска (обратите внимание, что вам не пришлось отмонтировать раздел)
 
+```bash
+resize2fs /dev/vg_data/lv_striped
+```
 
+<img width="994" alt="image" src="https://github.com/user-attachments/assets/191ad9ec-1db9-4cba-a24a-d51058fa9e35" />
 
+## 19. Получите информацию LVM о дисках, volume group и volume.
+
+```bash
+pvs
+vgs
+lvs
+```
+
+<img width="1112" alt="image" src="https://github.com/user-attachments/assets/a8483466-a242-49ee-98df-5f7cd248003b" />
 
 
 

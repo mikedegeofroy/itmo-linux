@@ -192,5 +192,29 @@ lvs
 
 <img width="1112" alt="image" src="https://github.com/user-attachments/assets/a8483466-a242-49ee-98df-5f7cd248003b" />
 
+## 20. На машине server установите службу nfs-kernel-server, разрешите запуск и запустите ее.
+
+```bash
+apt install nfs-kernel-server
+systemctl enable nfs-server
+```
+
+<img width="1063" alt="image" src="https://github.com/user-attachments/assets/ae6781f5-aa6e-4bfb-a299-d7bb074bc75f" />
+
+## 21. Сделайте так, чтобы к каталогу /mnt/vol01 можно было получить доступ через NFS, при этом установите параметры, которые:
+### a. Разрешают доступ к каталогу только с IP адресов сети ваших виртуальных машин.
+### b. Разрешают монтировать каталог для записи.
+
+```bash
+echo "/mnt/vol01 192.168.100.1/24(rw,sync,no_subtree_check)" >> /etc/exports
+exportfs -a
+```
+
+## 22. На компьютере client осуществите монтирование сетевого ресурса в каталог /var/remotenfs.
+
+```
+apt install nfs-common
+sudo mount -t nfs 192.168.100.1:/mnt/vol01 /var/remotenfs
+```
 
 

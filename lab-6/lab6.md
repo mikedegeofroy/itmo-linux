@@ -13,3 +13,5 @@ __Выполнил: де Джофрой Мишель, М3308__
 8) apt upgrade
 9) apt install --reinstall systemd bash login coreutils
 10) reboot??
+
+окей, это раобтает, но почему?

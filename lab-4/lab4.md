@@ -116,8 +116,43 @@ systemctl enable mymsg
 
 ## Часть 4. Работа с системным журналом
 
+### 4.1 Выведите на консоль системный журнал. Убедитесь, что сервис mymsg отработал корректно
+
+```bash
+journalctl
+```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/2bd47507-fbe8-473e-81f7-b92607eea1a5" />
 
 
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/d84aa25b-cc36-48b7-85a0-88597f14b820" />
+
+
+### 4.2 Выведите на консоль все сообщения системного журнала, касающиеся сервиса mymsg
+
+```bash
+journalctl -t mymsg
+```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/5fa3ac33-6999-449a-a67a-8fa3a1a21762" />
+
+### 4.3 Выведите на экран все сообщения об ошибках в журнале
+
+```bash
+journalctl -p 3
+```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/9916907a-b85e-494e-993d-5af69836e71d" />
+
+### 4.4 Определите размер журнала
+
+```
+journalctl --disk-usage
+```
+
+<img width="1092" alt="image" src="https://github.com/user-attachments/assets/ff84e5d2-16e7-4287-8eac-e0efd4be4ed0" />
+
+## Часть 5. Создание и настройка .mount юнита
 
 
 

@@ -163,15 +163,14 @@ lvs
 
 ```
 fdisk /dev/sde
-pvcreate /dev/sde1
-vgextend vg_data /dev/sde1
-sudo pvs /dev/sde1
+vgextend vg_data /dev/sde1 /dev/sde2
+lvextend -i 2 -l +100%FREE /dev/vg_data/lv_striped
 ```
-<img width="592" alt="image" src="https://github.com/user-attachments/assets/4af7f8da-ed6b-40df-be22-9de5459b0812" />
+
+<img width="1009" alt="image" src="https://github.com/user-attachments/assets/c6b694f1-4f16-4d0d-b2d5-60bac2793e95" />
 
 ## 18. Расширьте файловую систему на 100% нового диска (обратите внимание, что вам не пришлось отмонтировать раздел)
 
-<img width="761" alt="image" src="https://github.com/user-attachments/assets/27409b77-31d3-48d0-946e-dde6c23c5812" />
 
 
 

@@ -5,6 +5,8 @@ __Выполнил: де Джофрой Мишель, М3308__
 
 Система застряла в boot loop, не может запуститься.
 
+<img width="832" alt="image" src="https://github.com/user-attachments/assets/96f2d57d-0181-43c3-bb41-d0b10367d21b" />
+
 Что я сделал:
 
 1) Зашел в систему через recovery mode

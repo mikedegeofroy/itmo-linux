@@ -176,6 +176,15 @@ sudo dpkg -i newnano.deb
 
 <img width="1092" alt="image" src="https://github.com/user-attachments/assets/c422e4b3-5455-4c67-b510-b1c6415b79c2" />
 
+> Alternative way of doing this:
+```
+vim nano-package/DEBIAN/postinst
+ln -s /usr/bin/nano /usr/local/bin/newnano
+
+chmod +x nano-package/DEBIAN/postinst
+dpkg-deb -b nano-package newnano.deb
+sudo dpkg -i newnano.deb
+```
 
 ## ### 20. Бонусный вопрос с подвохом - что есть в APT?
 

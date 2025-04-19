@@ -211,7 +211,7 @@ sudo chown nfsnobody:nfsnobody /mnt/vol01
 
 id nfsnobody
 
-echo "/mnt/vol01 192.168.100.1/24(rw,sync,no_subtree_check,anonuid=1001,anongid=1001)" >> /etc/exports
+echo "/mnt/vol01 192.168.100.1/24(rw,sync,no_subtree_check,anonuid=1001,anongid=1001,all_squash)" >> /etc/exports
 exportfs -a
 ```
 

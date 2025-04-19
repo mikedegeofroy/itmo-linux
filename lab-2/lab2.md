@@ -206,6 +206,9 @@ systemctl enable nfs-server
 ### b. Разрешают монтировать каталог для записи.
 
 ```bash
+sudo useradd nfsnobody
+sudo chown nfsnobody:nfsnobody /mnt/vol01
+
 echo "/mnt/vol01 192.168.100.1/24(rw,sync,no_subtree_check)" >> /etc/exports
 exportfs -a
 ```

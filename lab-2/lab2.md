@@ -209,7 +209,9 @@ systemctl enable nfs-server
 sudo useradd nfsnobody
 sudo chown nfsnobody:nfsnobody /mnt/vol01
 
-echo "/mnt/vol01 192.168.100.1/24(rw,sync,no_subtree_check)" >> /etc/exports
+id nfsnobody
+
+echo "/mnt/vol01 192.168.100.1/24(rw,sync,no_subtree_check,anonuid=1001,anongid=1001)" >> /etc/exports
 exportfs -a
 ```
 

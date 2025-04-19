@@ -12,13 +12,14 @@ __Выполнил: де Джофрой Мишель, М3308__
 1) Зашел в систему через recovery mode
 2) ```systemctl get-default```
   <img width="729" alt="image" src="https://github.com/user-attachments/assets/1feee0cd-8ea8-4cbc-80dc-94fa637d244e" />
-4) ```systemctl set-default multi-user.target```
-5) ```ip a - заметим, что интерфейс не поднят```
-6) ```ip link set enp0s1 up```
-7) ```dhclient enp0s1```
-8) ```apt update```
-9) ```apt upgrade```
-10) ```apt install --reinstall systemd bash login coreutils```
-11) ```reboot```
+
+3) ```systemctl set-default multi-user.target```
+4) ```ip a - заметим, что интерфейс не поднят```
+5) ```ip link set enp0s1 up```
+6) ```dhclient enp0s1```
+7) ```apt update```
+8) ```apt upgrade```
+9) ```apt install --reinstall systemd bash login coreutils```
+10) ```reboot```
 
 окей, это раобтает, но почему?
